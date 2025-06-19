@@ -66,20 +66,20 @@ const colorizeSliders = (color, hue, saturation, brightness) => {
 
 const sliderStrategies = {
   hue: (el) => {
-    el.style.backgroundImage = `${GRADIENT}(GRADIENT_DIRECTION, rgb(204, 75, 75), rgb(204, 204, 75), rgb(75, 204, 75), rgb(75, 204, 204), rgb(75, 75, 204), rgb(204, 75, 204), rgb(204, 75, 75))`;
+    el.style.backgroundImage = `${GRADIENT}(${GRADIENT_DIRECTION}, rgb(204, 75, 75), rgb(204, 204, 75), rgb(75, 204, 75), rgb(75, 204, 204), rgb(75, 75, 204), rgb(204, 75, 204), rgb(204, 75, 75))`;
   },
   saturation: (color, el) => {
     const noSaturation = color.set("hsl.s", 0);
     const fullSaturation = color.set("hsl.s", 1);
     const scaleSaturation = chroma.scale([noSaturation, color, fullSaturation]);
-    el.style.backgroundImage = `${GRADIENT}(GRADIENT_DIRECTION, ${scaleSaturation(
+    el.style.backgroundImage = `${GRADIENT}(${GRADIENT_DIRECTION}, ${scaleSaturation(
       0
     )}, ${scaleSaturation(1)})`;
   },
   brightness: (color, el) => {
     const midBrightness = color.set("hsl.l", 0.5);
     const scaleBrightness = chroma.scale(["black", midBrightness, "white"]);
-    el.style.backgroundImage = `${GRADIENT}(GRADIENT_DIRECTION, ${scaleBrightness(
+    el.style.backgroundImage = `${GRADIENT}(${GRADIENT_DIRECTION}, ${scaleBrightness(
       0
     )}, ${scaleBrightness(0.5)}, ${scaleBrightness(1)})`;
   },
