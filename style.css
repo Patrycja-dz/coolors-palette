@@ -1,0 +1,254 @@
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+/* Prevent font size inflation */
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+/* Remove default margin in favour of better control in authored CSS */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin-block-end: 0;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
+
+/* Set core body defaults */
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* Set shorter line heights on headings and interactive elements */
+h1,
+h2,
+h3,
+h4,
+button,
+input,
+label {
+  line-height: 1.1;
+}
+
+/* Balance text wrapping on headings */
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+  color: currentColor;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+path,
+i,
+svg {
+  pointer-events: none;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Anything that has been anchored to should have extra scroll margin */
+:target {
+  scroll-margin-block: 5ex;
+}
+
+body {
+  font-family: "Young Serif", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.colors {
+  min-height: 75vh;
+  display: flex;
+}
+
+.color {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  min-height: 75vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.color h2 {
+  font-size: 2rem;
+  cursor: pointer;
+  color: #c8c7c7;
+}
+
+.sliders {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  bottom: 0;
+  padding: 1rem;
+  /* pointer-events: none; */
+  width: 75%;
+  border-top-right-radius: 1rem;
+  border-top-left-radius: 1rem;
+  /* transform: translateY(150px); */
+  /* opacity: 0; */
+  background-color: rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease-in-out;
+}
+
+.sliders.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+.sliders button {
+  position: absolute;
+  background-color: red;
+  right: 0;
+  top: 0;
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+  border: none;
+  padding: 0.65rem;
+  cursor: pointer;
+}
+.controls {
+  display: flex;
+  flex-direction: column;
+}
+
+.panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 20vh;
+}
+.panel button {
+  font-size: 1.2rem;
+  margin: 1rem;
+  padding: 1rem 2rem;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  background-color: rgb(16, 11, 56);
+  border-radius: 1rem;
+}
+
+.panel p {
+  font-size: 1.2rem;
+}
+
+.library-panel,
+.generate-panel,
+.save-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.adjust,
+.lock,
+.shades {
+  border: none;
+  font-size: 1.25rem;
+  background: none;
+  cursor: pointer;
+  margin: 1rem 0;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 1rem;
+}
+/* input[type="range"]::-webkit-slider-runnable-track {
+  background: #053a5f;
+  height: 0.5rem;
+}
+input[type="range"]::-moz-range-track {
+  background: #053a5f;
+  height: 0.5rem;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+/* appearance: none;
+  margin-top: -4px; /* Centers thumb on the track */
+/* background-color: #5cd5eb;
+  height: 1rem;
+  width: 0.5rem;
+} */
+.shades-container {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  max-height: 80%;
+  display: none;
+  flex-wrap: wrap;
+}
+
+.shade {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  font-size: 0.6rem;
+  font-family: monospace;
+  transition: transform 0.2s;
+}
+
+.shade:hover {
+  transform: scale(1.1);
+}
+
+.shade-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
