@@ -4,6 +4,23 @@ const sliders = document.querySelectorAll("input[type='range']");
 const shadesBtn = document.querySelectorAll(".shades");
 
 const currentHex = document.querySelectorAll(".color h2");
+const GRADIENT = "linear-gradient";
+const GRADIENT_DIRECTION = "to right";
+
+const init = () => {
+  document.addEventListener("click", (e) => {
+    const clickedColor = e.target.closest(".color");
+
+    document.querySelectorAll(".color").forEach((colorDiv) => {
+      const shadesContainer = colorDiv.querySelector(".shades-container");
+
+      if (!clickedColor || clickedColor !== colorDiv) {
+        shadesContainer.innerHTML = "";
+        shadesContainer.style.display = "none";
+      }
+    });
+  });
+};
 
 const generateHex = () => {
   // const letters = "0123456789ABCDEF";
@@ -46,9 +63,28 @@ const colorizeSliders = (color, hue, saturation, brightness) => {
   const fullSaturation = color.set("hsl.s", 1);
   const scaleSaturation = chroma.scale([noSaturation, color, fullSaturation]);
 
-  saturation.style.backgroundImage = `linear-gradient(to right, ${scaleSaturation(
+  updateSliderRangeBackground(saturation, scaleSaturation);
+  const midBrightness = color.set("hsl.l", 0.5);
+  const scaleBrightness = chroma.scale(["black", midBrightness, "white"]);
+
+  updateSliderRangeBrightness(brightness, scaleBrightness);
+  updateSliderRangeHue(hue);
+};
+
+const updateSliderRangeBackground = (el, value) => {
+  return (el.style.backgroundImage = `${GRADIENT}(GRADIENT_DIRECTION, ${value(
     0
-  )}, ${scaleSaturation(1)})`;
+  )}, ${value(1)})`);
+};
+
+const updateSliderRangeBrightness = (el, value) => {
+  return (el.style.backgroundImage = `${GRADIENT}(GRADIENT_DIRECTION, ${value(
+    0
+  )}, ${value(0.5)}, ${value(1)})`);
+};
+
+const updateSliderRangeHue = (el) => {
+  return (el.style.backgroundImage = `${GRADIENT}(GRADIENT_DIRECTION, rgb(204, 75, 75), rgb(204, 204, 75), rgb(75, 204, 75), rgb(75, 204, 204), rgb(75, 75, 204), rgb(204, 75, 204), rgb(204, 75, 75))`);
 };
 
 shadesBtn.forEach((btn) => {
@@ -76,6 +112,12 @@ const createShades = (baseColor, parentDiv) => {
 
   const colors = scale.colors(steps);
 
+  generateShades(colors, shadesContainer);
+
+  shadesContainer.style.display = "flex";
+};
+
+const generateShades = (colors, container) => {
   colors.forEach((color) => {
     const shade = document.createElement("div");
     shade.classList.add("shade");
@@ -90,10 +132,8 @@ const createShades = (baseColor, parentDiv) => {
     showShadeName(shade, textSpan, color);
     hideShadeName(shade, textSpan);
 
-    shadesContainer.appendChild(shade);
+    container.appendChild(shade);
   });
-
-  shadesContainer.style.display = "flex";
 };
 
 const showShadeName = (shade, textSpan, color) => {
@@ -109,19 +149,6 @@ const hideShadeName = (shade, textSpan) => {
   });
 };
 
-document.addEventListener("click", (e) => {
-  const clickedColor = e.target.closest(".color");
-
-  document.querySelectorAll(".color").forEach((colorDiv) => {
-    const shadesContainer = colorDiv.querySelector(".shades-container");
-
-    if (!clickedColor || clickedColor !== colorDiv) {
-      shadesContainer.innerHTML = "";
-      shadesContainer.style.display = "none";
-    }
-  });
-});
-
 const checkTextContrast = (color, text) => {
   const luminance = chroma(color).luminance();
 
@@ -133,3 +160,5 @@ const checkTextContrast = (color, text) => {
 };
 
 randomColors();
+
+init();
