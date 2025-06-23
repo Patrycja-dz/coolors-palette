@@ -112,27 +112,42 @@ const createShades = (baseColor, parentDiv) => {
 
   const colors = scale.colors(steps);
 
-  generateShades(colors, shadesContainer);
+  renderColorShades(colors, shadesContainer);
 
   shadesContainer.style.display = "flex";
 };
 
-const generateShades = (colors, container) => {
+const updateSelectedShadeUI = (selectedColor, shadeElement) => {
+  const shadeContainer = shadeElement.parentElement;
+  const hexDisplayElement = shadeContainer.querySelector("h2");
+
+  const color = chroma(selectedColor);
+  shadeContainer.style.backgroundColor = color;
+  hexDisplayElement.textContent = color;
+
+  checkTextContrast(color, hexDisplayElement);
+};
+
+const renderColorShades = (colors, container) => {
   colors.forEach((color) => {
-    const shade = document.createElement("div");
-    shade.classList.add("shade");
-    shade.style.backgroundColor = color;
+    const shadeElement = document.createElement("div");
+    shadeElement.classList.add("shade");
+    shadeElement.style.backgroundColor = color;
 
-    const textSpan = document.createElement("span");
-    textSpan.classList.add("shade-label");
-    textSpan.textContent = color;
-    textSpan.style.display = "none";
+    const labelElement = document.createElement("span");
+    labelElement.classList.add("shade-label");
+    labelElement.textContent = color;
+    labelElement.style.display = "none";
 
-    shade.appendChild(textSpan);
-    showShadeName(shade, textSpan, color);
-    hideShadeName(shade, textSpan);
+    shadeElement.appendChild(labelElement);
+    showShadeName(shadeElement, labelElement, color);
+    hideShadeName(shadeElement, labelElement);
 
-    container.appendChild(shade);
+    container.appendChild(shadeElement);
+
+    shadeElement.addEventListener("click", () =>
+      updateSelectedShadeUI(color, container)
+    );
   });
 };
 
@@ -166,7 +181,18 @@ const hslControls = (e) => {
     e.target.getAttribute("data-color-brightness");
 
   let sliders = e.target.parentElement.querySelectorAll(INPUT_TYPE);
-  console.log(sliders);
+  const hue = sliders[0];
+  const saturation = sliders[1];
+  const brightness = sliders[2];
+
+  const bgColor = colors[index].querySelector("h2").innerText;
+  console.log(bgColor);
+  let color = chroma(bgColor)
+    .set("hsl.s", saturation.value)
+    .set("hsl.l", brightness.value)
+    .set("hsl.h", hue.value);
+
+  colors[index].style.backgroundColor = color;
 };
 
 sliders.forEach((slider) => {
