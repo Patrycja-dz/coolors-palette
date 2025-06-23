@@ -1,11 +1,13 @@
+const GRADIENT = "linear-gradient";
+const GRADIENT_DIRECTION = "to right";
+const INPUT_TYPE = "input[type='range']";
+
 const colors = document.querySelectorAll(".color");
 const generateBtn = document.querySelector(".generate");
-const sliders = document.querySelectorAll("input[type='range']");
+const sliders = document.querySelectorAll(INPUT_TYPE);
 const shadesBtn = document.querySelectorAll(".shades");
 
 const currentHex = document.querySelectorAll(".color h2");
-const GRADIENT = "linear-gradient";
-const GRADIENT_DIRECTION = "to right";
 
 const init = () => {
   document.addEventListener("click", (e) => {
@@ -51,7 +53,7 @@ const randomColors = () => {
 
 const slidersChange = (color, hexColor) => {
   const colorChroma = chroma(hexColor);
-  const sliders = color.querySelectorAll("input[type='range']");
+  const sliders = color.querySelectorAll(INPUT_TYPE);
   const hue = sliders[0];
   const saturation = sliders[1];
   const brightness = sliders[2];
@@ -156,6 +158,20 @@ const checkTextContrast = (color, text) => {
     text.style.color = "white";
   }
 };
+
+const hslControls = (e) => {
+  const index =
+    e.target.getAttribute("data-color-hue") ||
+    e.target.getAttribute("data-color-saturation") ||
+    e.target.getAttribute("data-color-brightness");
+
+  let sliders = e.target.parentElement.querySelectorAll(INPUT_TYPE);
+  console.log(sliders);
+};
+
+sliders.forEach((slider) => {
+  slider.addEventListener("input", hslControls);
+});
 
 randomColors();
 
